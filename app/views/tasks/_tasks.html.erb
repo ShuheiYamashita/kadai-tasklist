@@ -1,20 +1,24 @@
 <ul class="list-unstyled">
-  <% tasklists.each do |tasklist| %>
+  <% tasks.each do |task| %>
+    <% user = task.user %>
     <li class="media mb-3">
-      <img class="mr-2 rounded" src="<%= gravatar_url(tasklist.user, { size: 50 }) %>" alt="">
+      <img class="mr-2 rounded" src="<%= gravatar_url(task.user, { size: 50 }) %>" alt="">
       <div class="media-body">
         <div>
-          <%= link_to tasklist.user.name, user_path(tasklist.user) %> <span class="text-muted">posted at <%= tasklist.created_at %></span>
+          <%= link_to user.name, user_path(user) %> <span class="text-muted">posted at <%= task.created_at %></span>
         </div>
         <div>
-          <tr>
-          <td><%= link_to task.id, task %></td>
-          <td><%= task.status %></td>
-          <td><%= task.content %></td>
-        </tr>
+          <ul>
+          <li>タスク：<%= task.content %></li>
+          <li>ステータス：<%= task.status %></li>
+        </ul>
+        </div>
+        <div>
+          <%= link_to "Edit", edit_task_path(task), class: 'btn btn-primary btn-xs' %>
+          <%= link_to "Delete", task, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
         </div>
       </div>
     </li>
   <% end %>
-  <%= paginate tasklists %>
+  <%= paginate tasks %>
 </ul>
